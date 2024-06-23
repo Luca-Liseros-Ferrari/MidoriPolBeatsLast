@@ -13,6 +13,13 @@ import java.util.stream.Collectors;
 
 @Path("/stripe")
 public class StripeResource {
+  private static String apiKey() {
+    String skKey = System.getenv("sk_key");
+    System.out.println
+            ("Retrieved key: " + (skKey != null ? skKey : "No skKey found"));
+    return skKey;
+  }
+
   private static final Logger LOGGER = Logger.getLogger(StripeResource.class.getName());
 
   @POST
@@ -22,7 +29,7 @@ public class StripeResource {
     System.out.println("stripe ok");
     LOGGER.info("Received request to /stripe/confirm with cart data: " + cartDto);
 
-    Stripe.apiKey = "sk_test_51MSKDVHlz9Zdfr7T3TTRt8ewx29VoiVVBI1AyT5MMpj60BqibgQJNHhj7bSHVtknvCnnRLJDrZStY7u1ursxlpER00yw0qyHkA";
+    Stripe.apiKey = apiKey();
 
     try {
       LOGGER.info("Building line items...");

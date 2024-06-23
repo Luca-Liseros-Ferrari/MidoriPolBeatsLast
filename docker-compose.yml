@@ -1,0 +1,29 @@
+version: "3"
+services:
+  application:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysqldb
+    networks:
+      - my-network
+  mysqldb:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: edam15!k2Mp_
+      MYSQL_DATABASE: midoripoldblastdue
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+
+networks:
+  my-network:
+    driver: bridge
